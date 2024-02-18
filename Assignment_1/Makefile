@@ -10,7 +10,7 @@ myWordCount: myWC.o myWCdriver.o
 
 # Need Fib.cpp and Fib.h to create object file Fib.o 
 myWC.o: myWC.cpp myWC.h
-	$(CC) -c Fib.cpp
+	$(CC) -c myWC.cpp
 
 # Need FibDriver.cpp to create object file FibDriver.o
 myWCdriver.o: myWCdriver.cpp
