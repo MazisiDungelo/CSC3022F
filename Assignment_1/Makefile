@@ -1,4 +1,4 @@
-./# This is a Makefile comment
+# This is a Makefile comment
 
 # Declare some variables to help construct our compile command
 CC=g++         # the compiler
@@ -20,10 +20,10 @@ myWCdriver.o: myWCdriver.cpp
 
 # deletes all the object code files
 clean:
-	@rm -f *.o
-	@rm myWordCount
+	rm -f *.o
+	rm myWordCount
    
 # copies/moves the relevant binaries and/or libraries to the correct folders   
 install:
   
-	@mv myWordCount ~/bin
+	mv myWordCount ~/bin
