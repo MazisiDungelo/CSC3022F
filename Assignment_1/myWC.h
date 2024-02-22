@@ -15,9 +15,16 @@ namespace DNGMAZ001{
     extern std::vector<std::string> words;
 
     extern int noOfchars;
-    extern std::vector<std::string> chars;
+    extern std::vector<char> chars;
 
     extern std::vector<char> specCharacters;
+
+    struct charInfo{
+        char character;
+        long count;
+    };
+
+    extern std::vector<charInfo> charCounts;
 
     int countLines(); // function to count the lines that are in text 
 
@@ -27,6 +34,7 @@ namespace DNGMAZ001{
 
     bool isSpecChar(char ch); // function to check is character ch is a special character or not
 
+    void countCharOccurances();
 }
 
      
