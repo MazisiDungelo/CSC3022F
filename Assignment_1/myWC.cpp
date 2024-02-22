@@ -6,14 +6,19 @@ namespace DNGMAZ001{
     int noOfwords = 0;
     int noOfchars = 0;
 
+
+
     std::vector<std::string> lines;
     std::vector<std::string> words;
-    std::vector<std::string> chars;
+    std::vector<char> chars;
+
+    std::vector<charInfo> charCounts;
 
     std::vector<char> specCharacters = { '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*',
                                         '+', ',', '-', '.', '/', ':', ';', '<', '=', '>',
                                         '?', '@', '[', '\\', ']', '^', '_', '{', '|', '}',
                                         '~'};
+
     int countLines()
     {
     
@@ -56,8 +61,10 @@ namespace DNGMAZ001{
     int countChars(){
         for (std::string word : words){
             for (char c : word){
+                chars.push_back(tolower(c));
                 noOfchars++;
             }
+            
         }
         return noOfchars;
     }
@@ -70,5 +77,50 @@ namespace DNGMAZ001{
         }
         return false;
     }
+    void countCharOccurances(){
+        char holder;
+        if (!chars.empty()){
+            charCounts.push_back({chars[0],1});
+            for (int i=1; i < chars.size();i++){
+                for (int j=0; j < charCounts.size();j++){
+                    if (chars[i] == charCounts[j].character){
+                        charCounts[j].count++;
+                        holder = '\0';
+                    }
+                    else{
+                        holder = chars[i];
+                    }
+                }
+                if (holder != '\0'){
+                  charCounts.push_back({holder,1});
+                  holder = '\0';  
+                }
+                
+            } 
+        }
+        if (!charCounts.empty()){
+            char lastChar = charCounts[0].character;
+            for (int n=0; n < charCounts.size(); n++){
+                if (charCounts[n].character > lastChar){lastChar=charCounts[n].character;}
+            }
+            for (char c = '0'; c <= 'z'; ++c) {
+                for (int x=0; x < charCounts.size(); x++){
+                    if (charCounts[x].character == c){
+                        if (c == lastChar){
+                            std::cout << charCounts[x].character << ":" << charCounts[x].count;
+                            break;
+                        }
+                        std::cout << charCounts[x].character << ":" << charCounts[x].count << " ";
+                        break;
+                        
+                    }
+                }
+            } 
+        }
+
+        
+
+    }
+
 
 }
