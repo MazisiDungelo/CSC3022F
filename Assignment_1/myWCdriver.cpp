@@ -5,7 +5,9 @@ int main (void)
 {
       using namespace DNGMAZ001;
 	std::cout << "Please enter a sentence" << std::endl;
-      std::cout << countLines() << " " << countWords()  <<  " " << countChars() << std::endl;
+      std::cout << countLines() << " " << countWords()  <<  " " << countChars() << " [";
+      countCharOccurances();
+      std::cout << "]" << std::endl;
 
       return 0; 
 }
