@@ -34,7 +34,7 @@ namespace DNGMAZ001 {
             void readPGM(const std::string& imageName);
             void createImage(unsigned char **inputPixels,int width, int height, std::string name);
             void initializeBoard(int width, int height);
-            // Changees the position of blank tile into other
+            // Changes the position of blank tile into other
             // Accept position of blank tile
             // Randomize next position for blank Tile
             std::pair<int, int> performRandomMove(int blankXpos, int blankYpos);
