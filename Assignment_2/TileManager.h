@@ -15,14 +15,18 @@ namespace DNGMAZ001 {
             int gridSize;
             int numMoves;
             int width, height;
-            unsigned char ** pixelData;
+            unsigned char ** pixelData; // Stores pixels read from input image
             Tile*** board;
-            int numRows, numCols;
-            std::vector<int> xpos;
+            int numRows, numCols; // Stores number of rows and columns for board
+
+            // Stores the index of Tiles in a board
+            std::vector<int> xpos; 
             std::vector<int> ypos;
 
         public:
+            // Custom constructor
             TileManager(int gridSize, const std::string& imageName, int numMoves);
+            // Destructor
             ~TileManager();
 
 
@@ -30,6 +34,9 @@ namespace DNGMAZ001 {
             void readPGM(const std::string& imageName);
             void createImage(unsigned char **inputPixels,int width, int height, std::string name);
             void initializeBoard(int width, int height);
+            // Changees the position of blank tile into other
+            // Accept position of blank tile
+            // Randomize next position for blank Tile
             std::pair<int, int> performRandomMove(int blankXpos, int blankYpos);
             void saveCurrentState(int move);
             void playGame();
