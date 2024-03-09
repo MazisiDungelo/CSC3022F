@@ -11,6 +11,7 @@ namespace DNGMAZ001{
         // Tile has position that it has in a board
         class Tile{
             private:
+                // Declare positions of Tile on a board
                 int x;
                 int y;
                 int width;
@@ -41,6 +42,9 @@ namespace DNGMAZ001{
                 unsigned char** getPixels() const;
                 int getWidth() const;
                 int getHeight() const;
+                int getX() const;
+                int getY() const;
+                void swapPixels(Tile& other);
                 // changes the Tile to blank
                 void makeBlank();
 
