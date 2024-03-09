@@ -7,6 +7,8 @@
 
 namespace DNGMAZ001{
 
+        // Create Tile object
+        // Tile has position that it has in a board
         class Tile{
             private:
                 int x;
@@ -34,11 +36,12 @@ namespace DNGMAZ001{
                 // Move Assignment Operator
                 Tile& operator=(Tile&& other) noexcept;
 
-
+        
                 unsigned char getPixel(int row, int col) const;
                 unsigned char** getPixels() const;
                 int getWidth() const;
                 int getHeight() const;
+                // changes the Tile to blank
                 void makeBlank();
 
     };
