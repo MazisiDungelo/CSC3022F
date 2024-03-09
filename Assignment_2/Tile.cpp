@@ -1,7 +1,9 @@
 #include "Tile.h"
 
 namespace DNGMAZ001 {
+    // Default constructor
     Tile::Tile() : x(0), y(0), width(0), height(0), pixels(nullptr){}
+    // Custom constructor
     Tile::Tile(int x,int y,int width,int height, unsigned char** inputPixels) : 
                         x(x),y(y),width(width),height(height)
                         
@@ -17,7 +19,7 @@ namespace DNGMAZ001 {
         }
 
     }
-
+    // Destructor
     Tile::~Tile() {
         for(int i = 0; i < this->getHeight(); i++)
         {
@@ -119,6 +121,7 @@ namespace DNGMAZ001 {
     {
         return this->height;
     }
+    // Changes the Tile to blank
     void Tile::makeBlank() {
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
