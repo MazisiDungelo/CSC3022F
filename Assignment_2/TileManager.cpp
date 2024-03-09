@@ -36,9 +36,12 @@ namespace DNGMAZ001
         blankYpos = (float(gridSize-1)/gridSize)*numRows;
         for (int move = 1; move <= numMoves; ++move) 
         {
+            // Perform random move of Tiles
+            // Retrieve  the current position of blank Tile
             std::pair<int, int> blankPos = performRandomMove(blankXpos,blankYpos);
             blankXpos = blankPos.first;
             blankYpos = blankPos.second;
+            // Save the current board
             saveCurrentState(move);
         }
     }
@@ -122,11 +125,11 @@ namespace DNGMAZ001
     //make image board made of tiles
     void TileManager::initializeBoard(int width, int height) 
     {
-        int tileHeight = height/gridSize; //set height of tile
-        int tileWidth = width/gridSize; //set width of a tile
+        int tileHeight = height/gridSize; 
+        int tileWidth = width/gridSize; 
 
-        numRows = gridSize*tileHeight; //set number of rows board
-        numCols = gridSize*tileWidth; //set number of cols each row have
+        numRows = gridSize*tileHeight;  // Set the number of rows of the board
+        numCols = gridSize*tileWidth;  // Set the number of cols of the board
 
         board = new Tile**[numRows];
         for (int i =0; i < numRows; i++)
@@ -141,28 +144,34 @@ namespace DNGMAZ001
                  if (i < tileHeight*gridSize && j < tileWidth*gridSize)
                  {
 
-                    Tile* tile = new Tile(i, j, tileWidth, tileHeight, pixelData);
-
+                    Tile* tile = new Tile(i, j, tileWidth, tileHeight, pixelData); 
+                    // Checks whether the Tile is not in the right bottom corner
+                    // Changes it and make it blank
                     if (i == (gridSize-1)*tileHeight && j == (gridSize-1)*tileWidth)
                         tile->makeBlank(); 
 
-                    board[i][j] = tile; // create tiles and add them unto rows
-                    xpos.push_back(i);
-                    ypos.push_back(j);
+                    board[i][j] = tile; // Create tiles and add them unto rows
+                    xpos.push_back(i); // Stores the x positions of the Tile
+                    ypos.push_back(j); // Stores the y positions of the Tile
                  }
 
             }
         }
     }
 
+    // Changees the position of blank tile into other
+    // Accept position of blank tile
+    // Randomize next position for blank Tile
     std::pair<int, int> TileManager::performRandomMove(int blankXpos, int blankYpos)
     {
         int randomXpos, randomYpos;
         do {
+            // Get the random x and y position from the list of x positions and y positions available in a board
             randomXpos = xpos[rand() % xpos.size()];
             randomYpos = ypos[rand() % ypos.size()];
         } while (randomXpos == blankXpos && randomYpos == blankYpos);
 
+        // Swap the Tile in the random position with the blank Tile
         Tile* tile = board[blankXpos][blankYpos];
         Tile* temp = tile;
         board[blankXpos][blankYpos] = board[randomXpos][randomYpos];
@@ -188,6 +197,7 @@ namespace DNGMAZ001
             outfile << "P2" << std::endl;
             outfile << "# Output PGM File" << std::endl;
             outfile << width << " " << height << std::endl;
+            
             // Iterate over the tiles in the board
             int tileHeight = numRows/gridSize;
             int tileWidth = numCols/gridSize;
