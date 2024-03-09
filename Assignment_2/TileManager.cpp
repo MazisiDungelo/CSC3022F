@@ -42,7 +42,7 @@ namespace DNGMAZ001
             blankXpos = blankPos.first;
             blankYpos = blankPos.second;
             // Save the current board
-            saveCurrentState(move);
+            saveCurrentState(move,name);
         }
     }
 
@@ -195,45 +195,45 @@ namespace DNGMAZ001
 
     void TileManager::saveCurrentState(int move, std::string name) 
     {
-            // Iterate over the tiles in the board
-            int tileHeight = numRows/gridSize;
-            int tileWidth = numCols/gridSize;
-            int n=0;
-            unsigned char** new_board = new unsigned char*[numRows];
-            for (int i=0; i < numRows; i++)
+        // Iterate over the tiles in the board
+        int tileHeight = numRows/gridSize;
+        int tileWidth = numCols/gridSize;
+        int n=0;
+        unsigned char** new_board = new unsigned char*[numRows];
+        for (int i=0; i < numRows; i++)
+        {
+            new_board[i] = new unsigned char[numCols];
+        }
+        for (int i = 0; i < numRows; i+=tileHeight) 
+        {
+            
+            for (int j = 0; j < numCols; j+=tileWidth) 
             {
-                new_board[i] = new unsigned char[numCols];
-            }
-            for (int i = 0; i < numRows; i+=tileHeight) 
-            {
-                
-                for (int j = 0; j < numCols; j+=tileWidth) 
+                if (i < numCols && j < numRows)
                 {
-                    if (i < numCols && j < numRows)
-                    {
-                        Tile* tile = board[i][j];
-                        
+                    Tile* tile = board[i][j];
+                    
 
-                        if (tile != nullptr)
+                    if (tile != nullptr)
+                    {
+                        for (int row = 0; row < tileHeight; ++row) 
                         {
-                            for (int row = 0; row < tileHeight; ++row) 
+                            for (int col = 0; col < tileWidth; ++col)
                             {
-                                for (int col = 0; col < tileWidth; ++col)
-                                {
-                                    unsigned char pixel = tile->getPixels()[row][col];
-                                    new_board[row+tile->getY()][col+tile->getX()] = pixel;
-                                }
-                                
+                                unsigned char pixel = tile->getPixels()[row][col];
+                                new_board[row+tile->getY()][col+tile->getX()] = pixel;
                             }
+                            
                         }
                     }
-
-                    
                 }
+
                 
             }
-            createImage(new_board,numRows,numRows,name+"-"+std::to_string(move));
-        } 
+            
+        }
+        createImage(new_board,numRows,numRows,name+"-"+std::to_string(move));
+     } 
 
-    }
 }
+
