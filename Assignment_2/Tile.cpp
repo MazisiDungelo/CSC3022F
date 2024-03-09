@@ -121,13 +121,33 @@ namespace DNGMAZ001 {
     {
         return this->height;
     }
+    int Tile::getX() const
+    {
+        return x;
+    }
+    int Tile::getY() const
+    {
+        return y;
+    }
+    void Tile::swapPixels(Tile& other)
+    {
+        // Swap the pixel data
+        std::swap(pixels, other.pixels);
+
+        // Swap other attributes if needed
+        std::swap(x, other.x);
+        std::swap(y, other.y);
+        std::swap(width, other.width);
+        std::swap(height, other.height);
+    }
     // Changes the Tile to blank
     void Tile::makeBlank() {
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            pixels[i][j] = 0; // Set to blank value
+        for (int i = 0; i < height; ++i)
+        {
+            for (int j = 0; j < width; ++j) {
+                pixels[i][j] = 0; // Set to blank value
+            }
         }
-    }
     }
 
 }
