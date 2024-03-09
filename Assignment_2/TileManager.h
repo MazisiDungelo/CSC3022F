@@ -18,6 +18,7 @@ namespace DNGMAZ001 {
             unsigned char ** pixelData; // Stores pixels read from input image
             Tile*** board;
             int numRows, numCols; // Stores number of rows and columns for board
+            std::string name;
 
             // Stores the index of Tiles in a board
             std::vector<int> xpos; 
@@ -38,7 +39,7 @@ namespace DNGMAZ001 {
             // Accept position of blank tile
             // Randomize next position for blank Tile
             std::pair<int, int> performRandomMove(int blankXpos, int blankYpos);
-            void saveCurrentState(int move);
+            void saveCurrentState(int move, std::string name);
             void playGame();
 
 
