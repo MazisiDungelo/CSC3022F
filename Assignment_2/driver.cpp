@@ -11,7 +11,8 @@ int main(int argc, char* argv[]) {
         gridSize = std::atoi(argv[1]);
         numMoves = std::atoi(argv[2]);
         imageName = argv[3];
-    } else {
+    } 
+    else {
             gridSize = 3; 
             imageName = "mona512.pgm"; 
             numMoves = 2; 
