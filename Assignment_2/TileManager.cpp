@@ -48,6 +48,7 @@ namespace DNGMAZ001
 
     void TileManager::readPGM(const std::string& imageName) 
     {
+        name = imageName;
         std::ifstream image(imageName);
         std::stringstream ss;
         if (image.is_open())
@@ -159,21 +160,30 @@ namespace DNGMAZ001
         }
     }
 
-    // Changees the position of blank tile into other
+    // Changes the position of blank tile into other
     // Accept position of blank tile
     // Randomize next position for blank Tile
     std::pair<int, int> TileManager::performRandomMove(int blankXpos, int blankYpos)
     {
-        int randomXpos, randomYpos;
-        do {
-            // Get the random x and y position from the list of x positions and y positions available in a board
-            randomXpos = xpos[rand() % xpos.size()];
+        // Get the random x and y position from the list of x positions and y positions available in a board
+        int randomXpos = xpos[rand() % xpos.size()]; 
+        int randomYpos = ypos[rand() % ypos.size()];
+        bool bothChanged = (blankXpos != randomXpos) && (blankYpos != randomYpos); // if both changed , this means it has moved to an incorect direction
+        bool repeat = (randomXpos == blankXpos) && (randomYpos == blankYpos);
+        bool within = ((abs(randomXpos-blankXpos) > (numRows/gridSize)) || (abs(randomYpos-blankYpos) > (numCols/gridSize))); 
+        while (bothChanged || repeat || within) 
+        {
+            randomXpos = xpos[rand() % xpos.size()]; 
             randomYpos = ypos[rand() % ypos.size()];
-        } while (randomXpos == blankXpos && randomYpos == blankYpos);
 
+            bothChanged = (blankXpos != randomXpos) && (blankYpos != randomYpos);
+            repeat = (randomXpos == blankXpos) && (randomYpos == blankYpos);
+            within = ((abs(randomXpos-blankXpos) > (numRows/gridSize)) || (abs(randomYpos-blankYpos) > (numCols/gridSize)));
+        }  
         // Swap the Tile in the random position with the blank Tile
         Tile* tile = board[blankXpos][blankYpos];
         Tile* temp = tile;
+        tile->swapPixels(*board[randomXpos][randomYpos]);
         board[blankXpos][blankYpos] = board[randomXpos][randomYpos];
         board[randomXpos][randomYpos] = temp;
 
@@ -183,49 +193,46 @@ namespace DNGMAZ001
         
         
 
-    void TileManager::saveCurrentState(int move) 
+    void TileManager::saveCurrentState(int move, std::string name) 
     {
-        // Create a fixed filename for the output PGM file
-        std::string filename = "output.pgm";
-
-        // Open a new PGM file for writing
-        std::ofstream outfile(filename);
-
-        if (outfile.is_open()) 
-        {
-            // Write the PGM header
-            outfile << "P2" << std::endl;
-            outfile << "# Output PGM File" << std::endl;
-            outfile << width << " " << height << std::endl;
-            
             // Iterate over the tiles in the board
             int tileHeight = numRows/gridSize;
             int tileWidth = numCols/gridSize;
             int n=0;
+            unsigned char** new_board = new unsigned char*[numRows];
+            for (int i=0; i < numRows; i++)
+            {
+                new_board[i] = new unsigned char[numCols];
+            }
             for (int i = 0; i < numRows; i+=tileHeight) 
             {
                 
                 for (int j = 0; j < numCols; j+=tileWidth) 
                 {
-                    Tile* tile = board[i][j];
-                    createImage(tile->getPixels(),tile->getWidth(),tile->getHeight(),"out_"+std::to_string(move)+std::to_string(n));
-                    n++;
+                    if (i < numCols && j < numRows)
+                    {
+                        Tile* tile = board[i][j];
+                        
 
-                    // if (tile != nullptr)
-                    // {
-                    //     for (int row = 0; row < tileHeight; ++row) 
-                    //     {
-                    //         for (int col = 0; col < tileWidth; ++col) 
-                    //         {
-                    //             unsigned char pixel = tile->getPixel(row,col);
-                    //         }
-                            
-                    //     }
-                    // }
+                        if (tile != nullptr)
+                        {
+                            for (int row = 0; row < tileHeight; ++row) 
+                            {
+                                for (int col = 0; col < tileWidth; ++col)
+                                {
+                                    unsigned char pixel = tile->getPixels()[row][col];
+                                    new_board[row+tile->getY()][col+tile->getX()] = pixel;
+                                }
+                                
+                            }
+                        }
+                    }
+
                     
                 }
                 
             }
+            createImage(new_board,numRows,numRows,name+"-"+std::to_string(move));
         } 
 
     }
