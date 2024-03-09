@@ -17,7 +17,7 @@ TileManager.o: TileManager.cpp TileManager.h
 
 # Need Tile and Tile.h to create object file Tile.o 
 driver.o: driver.cpp
-	$(CC) -driver.cpp
+	$(CC) -c driver.cpp
 
 # deletes all the object code files
 clean:
