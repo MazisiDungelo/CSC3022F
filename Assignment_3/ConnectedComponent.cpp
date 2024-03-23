@@ -11,12 +11,9 @@ namespace DNGMAZ001
     {}
     ConnectedComponent::~ConnectedComponent(){}
     // Copy Constructor
-    ConnectedComponent::ConnectedComponent(const ConnectedComponent& other) {
-        numOfPixels = other.numOfPixels;
-        pixelID = other.pixelID;
-        coordinates = other.coordinates;
-        allPairs = other.allPairs;
-    }
+    ConnectedComponent::ConnectedComponent(const ConnectedComponent& other) : numOfPixels(other.numOfPixels), pixelID(other.pixelID),
+                                                                                coordinates(other.coordinates), allPairs(other.allPairs)
+    {}
     // Move Constructor
     ConnectedComponent::ConnectedComponent(ConnectedComponent&& other) noexcept :
                                             numOfPixels(other.numOfPixels), pixelID(other.pixelID),
@@ -26,8 +23,10 @@ namespace DNGMAZ001
         other.pixelID = 0;
     }
     // Copy Assignment Operator
-    ConnectedComponent& ConnectedComponent::operator=(const ConnectedComponent& other) {
-        if (this != &other) {
+    ConnectedComponent& ConnectedComponent::operator=(const ConnectedComponent& other) 
+    {
+        if (this != &other) 
+        {
             numOfPixels = other.numOfPixels;
             pixelID = other.pixelID;
             coordinates = other.coordinates;
@@ -36,8 +35,10 @@ namespace DNGMAZ001
         return *this;
     }
     // Move Assignment Operator
-    ConnectedComponent& ConnectedComponent::operator=(ConnectedComponent&& other) noexcept {
-        if (this != &other) {
+    ConnectedComponent& ConnectedComponent::operator=(ConnectedComponent&& other) noexcept 
+    {
+        if (this != &other) 
+        {
             numOfPixels = other.numOfPixels;
             pixelID = other.pixelID;
             coordinates = std::move(other.coordinates);
