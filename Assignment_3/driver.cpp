@@ -18,6 +18,7 @@ int main(int argc, char * argv[]){
     DNGMAZ001::PGMimageProcessor *imageProcessor = new DNGMAZ001::PGMimageProcessor(argv[argc-1]);
     int count = 1;
     int min,max, threshold;
+    int minValidSize;
 
     while (count < (argc-1)){
         try
@@ -36,7 +37,7 @@ int main(int argc, char * argv[]){
             case 't':
                 count++;
                 threshold = std::stoi(argv[count]);
-                imageProcessor->extractComponents(threshold,threshold);
+                imageProcessor->extractComponents(threshold,minValidSize);
                 std::cout << "Stored : " << imageProcessor->getComponentCount()<< " components."<<std::endl;
                 break;
             case 'p':
