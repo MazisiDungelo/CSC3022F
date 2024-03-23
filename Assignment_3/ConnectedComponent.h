@@ -24,11 +24,11 @@ namespace DNGMAZ001
             // Copy constructor
             ConnectedComponent(const ConnectedComponent& other);
             // Move constructor 
-            ConnectedComponent(ConnectedComponent&& other);
+            ConnectedComponent(ConnectedComponent&& other) noexcept;
             // Copy assignment operator
-            ConnectedComponent& ConnectedComponent::operator=(const ConnectedComponent& other);
+            ConnectedComponent& operator=(const ConnectedComponent& other);
             // Move assigment operator
-            ConnectedComponent& ConnectedComponent::operator=(const ConnectedComponent&& other);
+            ConnectedComponent& operator=(ConnectedComponent&& other) noexcept;
 
             
             bool compareComponents (const std::pair<int,int> & lhs,const std::pair<int,int> & rhs);
