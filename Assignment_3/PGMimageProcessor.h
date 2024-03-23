@@ -17,7 +17,7 @@ namespace DNGMAZ001
             std::string filename;
             int imageWidth, imageHeight;
             std::string imageVersion;
-            int ** visitedPixels;
+            int ** selectedPixels;
             int lastId = 0;
                 
         public:
@@ -48,7 +48,7 @@ namespace DNGMAZ001
             // Create a new PGM file which contains all current components
             // (255=component pixel, 0 otherwise) and write this to outFileName as a
             // valid PGM. the return value indicates success of operation
-            bool writeComponents(const std::string & outFileName);
+            bool writeComponents(const std::string & outImageName);
 
             // Retrieve number of components
             int getComponentCount(void) const;     
@@ -63,7 +63,9 @@ namespace DNGMAZ001
             // see ConnectedComponent class;
             // print out to std::cout: component ID, number of pixels
             void printComponentData(const ConnectedComponent & theComponent) const;
-            ConnectedComponent bfs(int n, int m, unsigned char ** data,int x, int y, int color, int ** visitedPixels);  
+            // Check valid coordinates
+            int validCoord(int x, int y, int width, int height);
+            ConnectedComponent bfs(int h, int w, unsigned char ** data,int x, int y, int color, int ** visitedPixels);  
         
     };
 }
