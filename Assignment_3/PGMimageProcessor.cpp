@@ -31,6 +31,11 @@ namespace DNGMAZ001
         std::cout<< "Total components: "<<getComponentCount()<<std::endl;
         std::cout<< "No. of pixel of smallest component: "<<getSmallestSize()<<std::endl;
         std::cout<< "No. of pixel of largest component: "<<getLargestSize()<<std::endl;
+        std::cout << "Components:" << std::endl;
+        for (int i = 0; i < connectedComponents.size(); ++i)
+        {
+            printComponentData(*connectedComponents.at(i));
+        }
     }
 
     int PGMimageProcessor::assignID()
@@ -187,34 +192,34 @@ namespace DNGMAZ001
 
     int PGMimageProcessor::getLargestSize(void) const
     {
-        int maxSize = 0;
-        for (int i = 0; i < connectedComponents.size(); i++)
+        int largestSize = (*connectedComponents.at(0)).numOfPixels;
+        for (int i = 1; i < connectedComponents.size(); ++i)
         {
-            if ((*connectedComponents.at(i)).numOfPixels > maxSize)
-                maxSize = (*connectedComponents.at(i)).numOfPixels;
+            if ((*connectedComponents.at(i)).numOfPixels > largestSize)
+                largestSize = (*connectedComponents.at(i)).numOfPixels;
         }
         
-        return maxSize;
+        return largestSize;
     }
 
     int PGMimageProcessor::getSmallestSize(void) const 
     {
         if (connectedComponents.size() == 0) return 0; 
 
-        int minSize = (*connectedComponents.at(0)).numOfPixels;
+        int smallestSize = (*connectedComponents.at(0)).numOfPixels;
 
-        for (int i = 0; i < connectedComponents.size(); i++)
+        for (int i = 1; i < connectedComponents.size(); ++i)
         {
-            if ((*connectedComponents.at(i)).numOfPixels < minSize) 
-                minSize = (*connectedComponents.at(i)).numOfPixels;
+            if ((*connectedComponents.at(i)).numOfPixels < smallestSize) 
+                smallestSize = (*connectedComponents.at(i)).numOfPixels;
         }
         
-        return minSize;
+        return smallestSize;
     }
 
     void PGMimageProcessor::printComponentData(const ConnectedComponent & theComponent) const
     {
-        std::cout<< " Component ~ ID: "<< theComponent.pixelID<< " - no. pixels: "<< theComponent.numOfPixels<<std::endl;
+        std::cout<< " ID: "<< theComponent.pixelID<< " number of pixels = "<< theComponent.numOfPixels<<std::endl;
     }
 
     ConnectedComponent PGMimageProcessor::bfs(int h, int w, unsigned char ** data,int x, int y, int color, int ** selectedPixels)
@@ -223,7 +228,7 @@ namespace DNGMAZ001
         temp.pixelID = assignID();
         temp.numOfPixels = 0;
 
-        // Creating queue for bfs
+        // Create queue for bfs
         std::queue<std::pair<int, int> > obj;
 
         // Pushing pair of {x, y}
@@ -244,10 +249,10 @@ namespace DNGMAZ001
 
         data[x][y] = color;
             
-        // Popping front pair of queue
+        // Pop front pair of queue
         obj.pop();
 
-        // For Upside Pixel or Cell
+        // Upside Pixel or Cell
         if (validCoord(x + 1, y, h, w)
             && selectedPixels[x + 1][y] == 0
             && data[x + 1][y] >= preColor)
@@ -257,7 +262,7 @@ namespace DNGMAZ001
             temp.coordinates.push_back(std::make_pair(x + 1,y));
         }
             
-        // For Downside Pixel or Cell
+        // Downside Pixel or Cell
         if (validCoord(x - 1, y, h, w)
             && selectedPixels[x - 1][y] == 0
             && data[x - 1][y] >= preColor)
@@ -267,7 +272,7 @@ namespace DNGMAZ001
             temp.coordinates.push_back(std::make_pair(x - 1,y));
         }
             
-        // For Right side Pixel or Cell
+        // Right side Pixel or Cell
         if (validCoord(x, y + 1, h, w)
             && selectedPixels[x][y + 1] == 0
             && data[x][y + 1] >= preColor)
@@ -277,7 +282,7 @@ namespace DNGMAZ001
             temp.coordinates.push_back(std::make_pair(x,y+1));
         }
             
-        // For Left side Pixel or Cell
+        // Left side Pixel or Cell
         if (validCoord(x, y - 1, h, w)
             && selectedPixels[x][y - 1] == 0
             && data[x][y - 1] >= preColor)
